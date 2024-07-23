@@ -1,44 +1,35 @@
 import { useCallback, useEffect, useState } from "react";
-import Courses_cabinet from "./Courses_cabinet";
+import Calendar_cabinet from "./Calendar_cabinet";
 import axios from "axios";
 
-function Courses_student(props: any) {
+function Calendar_student(props: any) {
   const [searchView, setSearchView] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchResults, setSearchResults] = useState<number[]>([]);
-  const [typeCourse, setTypeCourse] = useState(true);
-  const [courses, setCourses] = useState([]);
+  const [events, setEvents] = useState([]);
   const [preloadCard, setPreloadCard] = useState(false);
 
   useEffect(() => {
     axios
-      .get("custom_web_template.html?object_code=cabinet_student_courses_ajax")
+      .get("custom_web_template.html?object_code=cabinet_student_calendar_ajax")
       .then((result) => {
-        setCourses(result.data);
         setPreloadCard(true);
+        setEvents(result.data);
       })
       .catch((error) => console.log(error));
   }, []);
 
-  useEffect(() => {
-    if (!searchView) {
-      setSearchText("");
-    }
-  });
-
   const handleSearch = useCallback((text: string) => {
     const contentArea = document.querySelector(".content_area") as HTMLElement;
     if (contentArea) {
-      const contentText = contentArea.innerText; // Текст внутри .content_area
+      const contentText = contentArea.innerText;
       const regex = new RegExp(text, "gi");
       const matches = [...contentText.matchAll(regex)].map(
         (match) => match.index || 0
       );
-      console.log("Matches found:", matches); // Лог для проверки найденных совпадений
 
-      // Проверка совпадений
       matches.forEach((index) => {
-        const contextLength = 20; // Количество символов до и после совпадения
+        const contextLength = 20;
         const contextStart = Math.max(index - contextLength, 0);
         const contextEnd = Math.min(
           index + text.length + contextLength,
@@ -46,14 +37,10 @@ function Courses_student(props: any) {
         );
 
         const context = contentText.substring(contextStart, contextEnd);
-        console.log("Context:", context); // Лог контекста для проверки
-
         if (context.includes(text)) {
-          console.log("Word found:", text); // Слово найдено верно
-          // Дальнейшие действия при необходимости
+          console.log("Word found:", text);
         } else {
-          console.log("Word not found:", text); // Слово не найдено
-          // Дальнейшие действия при необходимости
+          console.log("Word not found:", text);
         }
       });
 
@@ -62,13 +49,12 @@ function Courses_student(props: any) {
   }, []);
 
   useEffect(() => {
-    console.log("Search results updated:", searchResults); // Лог для проверки обновления состояния searchResults
+    console.log("Search results updated:", searchResults);
   }, [searchResults]);
 
-  // Функция для разделения текста на части и вставки тегов <span> вокруг совпадений
   const highlightText = (text: string, search: string) => {
     if (!search) {
-      return text; // Если поиск не активен, возвращаем исходный текст без подсветки
+      return text;
     }
     const regex = new RegExp(`(${search})`, "gi");
     return text.split(regex).map((part, index) =>
@@ -83,23 +69,21 @@ function Courses_student(props: any) {
   };
 
   return (
-    <Courses_cabinet
+    <Calendar_cabinet
       searchView={searchView}
       setSearchView={setSearchView}
       searchText={searchText}
       setSearchText={setSearchText}
       handleSearch={handleSearch}
       searchResults={searchResults}
-      typeCourse={typeCourse}
-      setTypeCourse={setTypeCourse}
-      courses={courses}
-      setCourses={setCourses}
       highlightText={highlightText}
+      events={events}
       preloadCard={preloadCard}
+      setPreloadCard={setPreloadCard}
       setViewNotification={props.setViewNotification}
       viewNotification={props.viewNotification}
     />
   );
 }
 
-export default Courses_student;
+export default Calendar_student;

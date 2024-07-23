@@ -1,8 +1,15 @@
-function Type_courses_icon_b() {
+function Type_courses_icon_b(props: any) {
   return (
     <div className="type_courses_icon">
       <svg
-        id="type_courses_icon_b"
+        onClick={() => {
+          props.setTypeCourse(false);
+        }}
+        id={
+          !props.typeCourse
+            ? "type_courses_icon_b_active"
+            : "type_courses_icon_b"
+        }
         xmlns="http://www.w3.org/2000/svg"
         width="22"
         height="22"

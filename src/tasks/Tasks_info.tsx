@@ -1,14 +1,12 @@
-import { useState } from "react";
+import Course_card_preload from "../courses/Course_card_preload";
 import Type_courses_icon_a from "../icon/Type_courses_icon_a";
 import Type_courses_icon_b from "../icon/Type_courses_icon_b";
-import Courses_card from "./Courses_card";
-import Course_card_preload from "./Course_card_preload";
-import Course_card_horizontal from "./Course_card_horizontal";
-import Course_card_horizontal_preload from "./Course_card_horizontal_preload";
+import Tasks_card from "./Tasks_card";
+import Tasks_card_horizontal from "./Tasks_card_horizontal";
 
-function Courses_info(props: any) {
+function Tasks_info(props: any) {
   return (
-    <div className="courses_info">
+    <div className="tasks_info">
       <div className="courses_type">
         <Type_courses_icon_a
           typeCourse={props.typeCourse}
@@ -19,43 +17,43 @@ function Courses_info(props: any) {
           setTypeCourse={props.setTypeCourse}
         />
       </div>
-      <div className="courses_cards">
+      <div className="tasks_cards">
         {props.typeCourse &&
           props.preloadCard &&
-          props.courses.map((element: any) => (
-            <Courses_card
-              courseName={element.courseName}
-              coursesStatus={element.coursesStatus}
-              coursePic={element.coursePic}
+          props.tasks.map((element: any) => (
+            <Tasks_card
+              TaskDatalName={element.TaskDatalName}
+              TaskStatus={element.TaskStatus}
+              TaskResourseId={element.TaskResourseId}
               highlightText={props.highlightText}
+              setSearchText={props.setSearchText}
               searchText={props.searchText}
-              courseId={element.courseId}
+              Id={element.Id}
             />
           ))}
         {!props.preloadCard &&
           Array.from({ length: 6 }).map((_, index) => (
             <Course_card_preload key={index} />
           ))}
-
         {!props.typeCourse &&
           props.preloadCard &&
-          props.courses.map((element: any) => (
-            <Course_card_horizontal
-              courseName={element.courseName}
-              coursesStatus={element.coursesStatus}
+          props.tasks.map((element: any) => (
+            <Tasks_card_horizontal
+              TaskDatalName={element.TaskDatalName}
+              TaskStatus={element.TaskStatus}
               highlightText={props.highlightText}
               searchText={props.searchText}
-              courseId={element.courseId}
+              Id={element.Id}
             />
           ))}
         {!props.typeCourse &&
           !props.preloadCard &&
           Array.from({ length: 6 }).map((_, index) => (
-            <Course_card_horizontal_preload key={index} />
+            <Tasks_card_horizontal key={index} />
           ))}
       </div>
     </div>
   );
 }
 
-export default Courses_info;
+export default Tasks_info;

@@ -2,7 +2,7 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 function Circular_complited_task(props: any) {
-  const percentage = 84;
+  const percentage = props.totalTaskCount;
   return (
     <div className="circular_complited">
       <CircularProgressbar

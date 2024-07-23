@@ -4,9 +4,28 @@ import Circular_complited_task from "./Circular_complited_task";
 function Statistic_block(props: any) {
   let countActiveCourse = props.countCourse;
   let countCompeletedCourse = props.countCompletedCourse;
-  let totalCount = Math.round(
-    (100 / (countActiveCourse + countCompeletedCourse)) * countCompeletedCourse
-  );
+
+  let totalCount = 0;
+
+  if (countActiveCourse != 0) {
+    totalCount = Math.round(
+      (100 / (countActiveCourse + countCompeletedCourse)) *
+        countCompeletedCourse
+    );
+  } else {
+    totalCount = 0;
+  }
+
+  let totalTaskCount = 0;
+
+  if (props.countTasks != 0) {
+    totalTaskCount = Math.round(
+      (100 / (props.countTasks + props.contComplitedTask)) *
+        props.contComplitedTask
+    );
+  } else {
+    totalTaskCount = 0;
+  }
 
   return (
     <div className="statistic_block">
@@ -42,9 +61,9 @@ function Statistic_block(props: any) {
           <div className="statistic_block_datal">
             <div className="statistic_chart">
               <div className="statistic_number">
-                {props.highlightText("84%", props.searchText)}
+                {props.highlightText(`${totalTaskCount}%`, props.searchText)}
               </div>
-              <Circular_complited_task />
+              <Circular_complited_task totalTaskCount={totalTaskCount} />
             </div>
             <div className="statistic_name">
               {props.highlightText("Заданий сделано", props.searchText)}

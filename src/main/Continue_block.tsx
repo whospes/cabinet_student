@@ -19,7 +19,7 @@ function Continue_block(props: any) {
           )}
         </div>
         {props.countCourse > 0 && (
-          <a href={`/_wt/${props.lastId}`}>
+          <a href={`/_wt/courses_2022/${props.lastId}`} target="_blank">
             <button className="continue_button">Продолжить</button>
           </a>
         )}

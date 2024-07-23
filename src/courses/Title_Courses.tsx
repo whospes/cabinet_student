@@ -3,8 +3,15 @@ import Search_cabinet_student from "../main/Search_cabinet_student";
 import Reminder_icon from "../icon/Reminder_icon";
 import Search_icon from "../icon/Search_icon";
 
-function Title_universal(props: any) {
+function Title_Courses(props: any) {
   const searchRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (props.searchView && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [props.searchView]);
 
   useEffect(() => {
     const handler = (e: any) => {
@@ -35,6 +42,7 @@ function Title_universal(props: any) {
         {props.searchView ? (
           <Search_cabinet_student
             ref={searchRef}
+            inputRef={inputRef}
             searchText={props.searchText}
             setSearchText={props.setSearchText}
           />
@@ -46,10 +54,13 @@ function Title_universal(props: any) {
         {!props.searchView && (
           <Search_icon handleOpenSearch={handleOpenSearch} />
         )}
-        <Reminder_icon />
+        <Reminder_icon
+          setViewNotification={props.setViewNotification}
+          viewNotification={props.viewNotification}
+        />
       </div>
     </div>
   );
 }
 
-export default Title_universal;
+export default Title_Courses;

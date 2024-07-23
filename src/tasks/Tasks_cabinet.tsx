@@ -1,10 +1,10 @@
-import Courses_info from "./Courses_info";
-import Title_Courses from "./Title_Courses";
+import Tasks_info from "./Tasks_info";
+import Tasks_title from "./Tasks_title";
 
-function Courses_cabinet(props: any) {
+function Tasks_cabinet(props: any) {
   return (
-    <div className="courses_cabinet">
-      <Title_Courses
+    <div className="tasks_cabinet">
+      <Tasks_title
         searchView={props.searchView}
         setSearchView={props.setSearchView}
         searchText={props.searchText}
@@ -15,17 +15,20 @@ function Courses_cabinet(props: any) {
         setViewNotification={props.setViewNotification}
         viewNotification={props.viewNotification}
       />
-      <Courses_info
+
+      <Tasks_info
         typeCourse={props.typeCourse}
         setTypeCourse={props.setTypeCourse}
-        courses={props.courses}
-        setCourses={props.setCourses}
+        tasks={props.tasks}
+        setTasks={props.setTasks}
         highlightText={props.highlightText}
+        setSearchText={props.setSearchText}
         searchText={props.searchText}
         preloadCard={props.preloadCard}
+        setPreloadCard={props.setPreloadCard}
       />
     </div>
   );
 }
 
-export default Courses_cabinet;
+export default Tasks_cabinet;

@@ -1,19 +1,17 @@
-import React, { useEffect, useRef } from "react";
-import Search_cabinet_student from "./Search_cabinet_student";
+import { useEffect, useRef } from "react";
 import Reminder_icon from "../icon/Reminder_icon";
 import Search_icon from "../icon/Search_icon";
+import Search_cabinet_student from "../main/Search_cabinet_student";
 
-function Title_cabinet(props: any) {
-  const dataStudentBegin = `${props.dataStudent.split(" ")[0]} ${
-    props.dataStudent.split(" ")[1]
-  }`;
-
-  const dataStudentEndFormatted = `${props.dataStudentEnd.split(" ")[0]} ${
-    props.dataStudentEnd.split(" ")[1]
-  }`;
-
+function Calendar_title(props: any) {
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (props.searchView && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [props.searchView]);
 
   useEffect(() => {
     const handler = (e: any) => {
@@ -33,25 +31,10 @@ function Title_cabinet(props: any) {
   };
 
   useEffect(() => {
-    if (props.searchView && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [props.searchView]);
-
-  useEffect(() => {
     if (props.searchText) {
       props.handleSearch(props.searchText);
     }
   }, [props.searchText, props.handleSearch]);
-
-  const highlightedDataStudentBegin = props.highlightText(
-    dataStudentBegin,
-    props.searchView ? props.searchText : ""
-  );
-  const highlightedDataStudentEnd = props.highlightText(
-    dataStudentEndFormatted,
-    props.searchView ? props.searchText : ""
-  );
 
   return (
     <div className="title_cabinet">
@@ -64,11 +47,8 @@ function Title_cabinet(props: any) {
             setSearchText={props.setSearchText}
           />
         ) : (
-          <div className="title_position">{props.positionInf}</div>
+          <div className="title_position">Календарь</div>
         )}
-        <div className="data_student">
-          {highlightedDataStudentBegin} - {highlightedDataStudentEnd}
-        </div>
       </div>
       <div className="right_tittle_block">
         {!props.searchView && (
@@ -83,4 +63,4 @@ function Title_cabinet(props: any) {
   );
 }
 
-export default Title_cabinet;
+export default Calendar_title;

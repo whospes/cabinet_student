@@ -4,6 +4,7 @@ const Search_cabinet_student = forwardRef<HTMLDivElement, any>((props, ref) => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     props.setSearchText(event.target.value);
   };
+
   return (
     <div className="search_student" ref={ref}>
       <input
@@ -11,6 +12,7 @@ const Search_cabinet_student = forwardRef<HTMLDivElement, any>((props, ref) => {
         type="text"
         value={props.searchText}
         onChange={handleInputChange}
+        ref={props.inputRef}
       />
     </div>
   );

@@ -1,6 +1,9 @@
-function Reminder_icon() {
+function Reminder_icon(props: any) {
   return (
     <svg
+      onClick={() => {
+        props.setViewNotification(!props.viewNotification);
+      }}
       id="reminder_icon"
       xmlns="http://www.w3.org/2000/svg"
       width="40"

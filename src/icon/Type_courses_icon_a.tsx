@@ -3,7 +3,14 @@ function Type_courses_icon_a(props: any) {
   return (
     <div className="type_courses_icon">
       <svg
-        id="type_courses_icon_a"
+        onClick={() => {
+          props.setTypeCourse(true);
+        }}
+        id={
+          props.typeCourse
+            ? "type_courses_icon_a_active"
+            : "type_courses_icon_a"
+        }
         xmlns="http://www.w3.org/2000/svg"
         width="22"
         height="22"

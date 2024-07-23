@@ -1,16 +1,31 @@
-import React, { useEffect, useState, useCallback } from "react";
-import "../App.css";
-import Main_block_cabinet from "./Main_block_cabinet";
+import { useCallback, useEffect, useState } from "react";
+import Task_datal_main from "./Task_datal_main";
+import Tasks_cabinet from "./Tasks_cabinet";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
-function Cabinet_students(props: any) {
-  const [userId, setUserid] = useState("");
-  const [positionInf, setpositionInf] = useState("");
-  const [userName, setUserName] = useState("");
-  const [infoCourseCount, setInfoCourseCount] = useState([]);
+function Task_datal(props: any) {
   const [searchView, setSearchView] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchResults, setSearchResults] = useState<number[]>([]);
+  const [tasks, setTasks] = useState([]);
+  const location = useLocation();
+
+  useEffect(() => {
+    const pathArr = location.pathname.split("/");
+    const id = pathArr[pathArr.length - 1];
+    axios
+      .get(
+        "custom_web_template.html?object_code=cabinet_student_datal_tasks_ajax",
+        {
+          params: { task_id: id },
+        }
+      )
+      .then((result) => {
+        setTasks(result.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   useEffect(() => {
     if (!searchView) {
@@ -57,38 +72,6 @@ function Cabinet_students(props: any) {
     console.log("Search results updated:", searchResults); // Лог для проверки обновления состояния searchResults
   }, [searchResults]);
 
-  useEffect(() => {
-    axios
-      .get("custom_web_template.html?object_code=cabinet_student_ajax")
-      .then((result) => {
-        setInfoCourseCount(result.data);
-      })
-      .catch((error) => console.log(error));
-  }, []);
-
-  useEffect(() => {
-    const nameUser = document.getElementById("person_info") as HTMLInputElement;
-    if (nameUser) {
-      const name = nameUser.value.split(" ")[0];
-      setUserName(name);
-    }
-    const positionUser = document.getElementById(
-      "position_info"
-    ) as HTMLInputElement;
-    if (positionUser) {
-      const position = positionUser.value;
-      setpositionInf(position);
-    }
-
-    const idUserElement = document.getElementById(
-      "id_user"
-    ) as HTMLInputElement;
-    if (idUserElement) {
-      const BlockID = idUserElement.value;
-      setUserid(BlockID);
-    }
-  }, []);
-
   // Функция для разделения текста на части и вставки тегов <span> вокруг совпадений
   const highlightText = (text: string, search: string) => {
     if (!search) {
@@ -105,37 +88,30 @@ function Cabinet_students(props: any) {
       )
     );
   };
-
   return (
-    <div className="App">
-      <div className="cabinet_student">
-        {infoCourseCount.map((courseelem: any) => (
-          <Main_block_cabinet
-            key={courseelem.id}
-            userName={userName}
-            positionInf={positionInf}
-            infoCourseCount={infoCourseCount}
-            countCourse={courseelem.countCourse}
-            countCompletedCourse={courseelem.countCompletedCourse}
-            lastId={courseelem.lastId}
-            dataStudent={courseelem.dataStudent}
-            dataStudentEnd={courseelem.dataStudentEnd}
-            searchView={searchView}
-            setSearchView={setSearchView}
-            searchText={searchText}
-            setSearchText={setSearchText}
-            searchResults={searchResults}
-            handleSearch={handleSearch}
-            highlightText={highlightText}
-            countTasks={courseelem.countTasks}
-            contComplitedTask={courseelem.contComplitedTask}
-            setViewNotification={props.setViewNotification}
-            viewNotification={props.viewNotification}
-          />
-        ))}
-      </div>
+    <div>
+      {tasks.map((element: any) => (
+        <Task_datal_main
+          searchView={searchView}
+          setSearchView={setSearchView}
+          searchText={searchText}
+          setSearchText={setSearchText}
+          handleSearch={handleSearch}
+          searchResults={searchResults}
+          highlightText={highlightText}
+          learningTaskName={element.learningTaskName}
+          learningTaskTarget={element.learningTaskTarget}
+          learningTask={element.learningTask}
+          learningTaskManual={element.learningTaskManual}
+          Id={element.Id}
+          key={element.Id}
+          learningAnswer={element.learningAnswer}
+          setViewNotification={props.setViewNotification}
+          viewNotification={props.viewNotification}
+        />
+      ))}
     </div>
   );
 }
 
-export default Cabinet_students;
+export default Task_datal;
